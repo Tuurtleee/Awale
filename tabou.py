@@ -18,12 +18,20 @@ def charger_freq_bigrams(fichier):
     return freq_bigrams
 
 # Fonction d'évaluation
-def evaluer_configuration(config, freq_bigrams):
+def evaluer_configuration(config, freq_bigrams, largeur=10):
+    def obtenir_position_2d(index, largeur=10):
+        """Convertit un index 1D en coordonnées 2D."""
+        return divmod(index, largeur)
+    
     score = 0
     for bigram, freq in freq_bigrams.items():
-        pos1, pos2 = config.index(bigram[0]), config.index(bigram[1])
-        distance = abs(pos1 - pos2)
-        score += freq * distance
+        if bigram[0] in config and bigram[1] in config:
+            pos1 = config.index(bigram[0])
+            pos2 = config.index(bigram[1])
+            x1, y1 = obtenir_position_2d(pos1, largeur)
+            x2, y2 = obtenir_position_2d(pos2, largeur)
+            distance = np.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+            score += freq * distance
     return score
 
 # Génération des voisins
@@ -37,18 +45,19 @@ def generer_voisins(config):
     return voisins
 
 # Recherche tabou
-def recherche_tabou(freq_bigrams, taille_liste_tabou, iterations):
+def recherche_tabou(freq_bigrams, taille_liste_tabou, iterations, largeur=10):
     lettres = list('abcdefghijklmnopqrstuvwxyz')
-    config_actuelle = np.random.permutation(lettres).tolist()
+    configuration_initiale = lettres + [''] * (largeur * 4 - len(lettres))  # Ajout de cases vides
+    config_actuelle = np.random.permutation(configuration_initiale).tolist()
     meilleure_config = config_actuelle.copy()
-    meilleure_valeur = evaluer_configuration(config_actuelle, freq_bigrams)
+    meilleure_valeur = evaluer_configuration(config_actuelle, freq_bigrams, largeur)
     
     liste_tabou = deque(maxlen=taille_liste_tabou)
     valeurs = [meilleure_valeur]
 
     for iteration in range(iterations):
         voisins = generer_voisins(config_actuelle)
-        voisinage = [(voisin, evaluer_configuration(voisin, freq_bigrams)) for voisin in voisins]
+        voisinage = [(voisin, evaluer_configuration(voisin, freq_bigrams, largeur)) for voisin in voisins]
         voisinage.sort(key=lambda x: x[1])
         
         for voisin, valeur in voisinage:
@@ -73,13 +82,19 @@ def recherche_tabou(freq_bigrams, taille_liste_tabou, iterations):
 
     return meilleure_config, meilleure_valeur
 
-# Exemple d'utilisation
-freq_bigrams = charger_freq_bigrams('map.csv')
-meilleure_config, meilleure_valeur = recherche_tabou(freq_bigrams, taille_liste_tabou=50, iterations=1000)
+def run():
+    # Exemple d'utilisation
+    freq_bigrams = charger_freq_bigrams('map.csv')
+    meilleure_config, meilleure_valeur = recherche_tabou(freq_bigrams, taille_liste_tabou=50, iterations=1000)
 
-# Affichage de la configuration finale
-print("Meilleure configuration :")
-for i in range(0, len(meilleure_config), 10):  # afficher 10 lettres par ligne
-    print(" ".join(meilleure_config[i:i+10]))
+    # Affichage de la configuration finale
+    print("Meilleure configuration :")
+    for i in range(0, len(meilleure_config), 10):  # afficher 10 lettres par ligne
+        print(" ".join(['_' if x == '' else x for x in meilleure_config[i:i+10]]))
 
-print(f"Meilleure valeur de la fonction objectif: {meilleure_valeur}")
+    print(f"Meilleure valeur de la fonction objectif: {meilleure_valeur}")
+    return meilleure_config, meilleure_valeur
+
+# Exécution de la fonction
+if __name__ == "__main__":
+    run()

@@ -75,12 +75,14 @@ def recuit_simule(freq_bigrams, temp_initiale, taux_refroidissement, iterations,
     return meilleure_config, meilleure_valeur
 
 # Exemple d'utilisation
-freq_bigrams = charger_freq_bigrams('map.csv')
-meilleure_config, meilleure_valeur = recuit_simule(freq_bigrams, temp_initiale=1000, taux_refroidissement=0.99, iterations=10000, pas_rafraichissement=100)
+def run():
+    freq_bigrams = charger_freq_bigrams('map.csv')
+    meilleure_config, meilleure_valeur = recuit_simule(freq_bigrams, temp_initiale=1000, taux_refroidissement=0.99, iterations=10000, pas_rafraichissement=100)
 
-# Affichage de la configuration finale sans les cases vides
-print("Meilleure configuration :")
-for i in range(0, len(meilleure_config), 10):  # afficher 10 lettres par ligne
-    print(" ".join(['_' if x == '' else x for x in meilleure_config[i:i+10]]))
+    # Affichage de la configuration finale sans les cases vides
+    print("Meilleure configuration :")
+    for i in range(0, len(meilleure_config), 10):  # afficher 10 lettres par ligne
+        print(" ".join(['_' if x == '' else x for x in meilleure_config[i:i+10]]))
 
-print(f"Meilleure valeur de la fonction objectif: {meilleure_valeur}")
+    print(f"Meilleure valeur de la fonction objectif: {meilleure_valeur}")
+    return meilleure_config, meilleure_valeur
