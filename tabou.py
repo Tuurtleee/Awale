@@ -74,18 +74,20 @@ def recherche_tabou(freq_bigrams, taille_liste_tabou, iterations, largeur=10):
         if iteration % 100 == 0:
             print(f"Iteration {iteration} - Meilleure valeur: {meilleure_valeur}")
     
+    plt.clf()
     plt.plot(valeurs)
     plt.xlabel('Itérations')
     plt.ylabel('Valeur de la fonction objectif')
     plt.title('Évolution de la valeur de la fonction objectif')
-    plt.show()
 
+    # save 
+    plt.savefig('last_tabou.png')
     return meilleure_config, meilleure_valeur
 
-def run():
+def run(iter, taille):
     # Exemple d'utilisation
     freq_bigrams = charger_freq_bigrams('map.csv')
-    meilleure_config, meilleure_valeur = recherche_tabou(freq_bigrams, taille_liste_tabou=50, iterations=1000)
+    meilleure_config, meilleure_valeur = recherche_tabou(freq_bigrams, taille_liste_tabou=taille, iterations=iter)
 
     # Affichage de la configuration finale
     print("Meilleure configuration :")

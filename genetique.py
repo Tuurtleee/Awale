@@ -81,19 +81,22 @@ def algorithme_genetique(freq_bigrams, taille_population, prob_mutation, generat
 
         if generation % 100 == 0:
             print(f"Generation {generation} - Meilleure valeur: {meilleure_valeur}")
+    plt.clf()
     
     plt.plot(valeurs)
     plt.xlabel('Générations')
     plt.ylabel('Valeur de la fonction objectif')
     plt.title('Évolution de la valeur de la fonction objectif')
-    plt.show()
+
+    # save
+    plt.savefig('last_genetique.png')
 
     return meilleure_config, meilleure_valeur
 
-def run():
+def run(taille_pop, iterations, mutprob):
     # Exemple d'utilisation
     freq_bigrams = charger_freq_bigrams('map.csv')
-    meilleure_config, meilleure_valeur = algorithme_genetique(freq_bigrams, taille_population=100, prob_mutation=0.05, generations=1000)
+    meilleure_config, meilleure_valeur = algorithme_genetique(freq_bigrams, taille_pop, mutprob, iterations)
 
     # Affichage de la configuration finale
     print("Meilleure configuration :")
