@@ -74,7 +74,7 @@ def recherche_tabou(freq_bigrams, taille_liste_tabou, iterations, largeur=10):
         if iteration % 100 == 0:
             print(f"Iteration {iteration} - Meilleure valeur: {meilleure_valeur}")
     
-    plt.clf()
+    #plt.clf()
     plt.plot(valeurs)
     plt.xlabel('Itérations')
     plt.ylabel('Valeur de la fonction objectif')

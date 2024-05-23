@@ -81,7 +81,7 @@ def algorithme_genetique(freq_bigrams, taille_population, prob_mutation, generat
 
         if generation % 100 == 0:
             print(f"Generation {generation} - Meilleure valeur: {meilleure_valeur}")
-    plt.clf()
+    #plt.clf()
     
     plt.plot(valeurs)
     plt.xlabel('Générations')
