@@ -64,13 +64,11 @@ def recuit_simule(freq_bigrams, temp_initiale, taux_refroidissement, iterations,
         if i % pas_rafraichissement == 0:
             print(f"Iteration {i} - Meilleure valeur: {meilleure_valeur}")
     
-    plt.plot(valeurs)
-    plt.xlabel('Itérations')
-    plt.ylabel('Valeur de la fonction objectif')
-    plt.title('Évolution de la valeur de la fonction objectif')
+    plt.plot(valeurs, label='Recuit Simulé')
 
     # out in out.png
     plt.savefig('last_recuit.png')
+    plt.legend()
 
     return meilleure_config, meilleure_valeur
 

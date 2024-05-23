@@ -83,13 +83,14 @@ def algorithme_genetique(freq_bigrams, taille_population, prob_mutation, generat
             print(f"Generation {generation} - Meilleure valeur: {meilleure_valeur}")
     #plt.clf()
     
-    plt.plot(valeurs)
+    plt.plot(valeurs, label='Algorithme génétique')
     plt.xlabel('Générations')
     plt.ylabel('Valeur de la fonction objectif')
     plt.title('Évolution de la valeur de la fonction objectif')
 
     # save
     plt.savefig('last_genetique.png')
+    plt.legend()
 
     return meilleure_config, meilleure_valeur
 

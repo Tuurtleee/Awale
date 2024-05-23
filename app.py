@@ -44,7 +44,30 @@ def index():
     config_genetique, gen_val = gen.run(100, 10, 0.1)
     config_recuit, rec_val = recuit.run(10, 100)
     config_tabou, tab_val = tabou.run(10, 100)
-    return render_template('index.html', range_4=range(4), range_10=range(10), config_genetique=config_genetique, config_recuit=config_recuit, config_tabou=config_tabou, gen_val=gen_val, rec_val=rec_val, tab_val=tab_val, recuit_iterations=10, recuit_temperature=100, gen_iterations=10, gen_popsize=100, gen_mutprob=0.1, taboo_iterations=10, taboo_taille=100)
+    new_gen_config = []
+    new_rec_config = []
+    new_tab_config = []
+    for i in range(0, 4):
+        temp_gen = []
+        temp_rec = []
+        temp_tab = []
+        for j in range(10):
+            if i*10+j < len(config_genetique):
+                temp_gen.append(config_genetique[i*10+j])
+            else:
+                temp_gen.append('\0')
+            if i*10+j < len(config_recuit):
+                temp_rec.append(config_recuit[i*10+j])
+            else:
+                temp_rec.append('\0')
+            if i*10+j < len(config_tabou):
+                temp_tab.append(config_tabou[i*10+j])
+            else:
+                temp_tab.append('\0')
+        new_gen_config.append(temp_gen)
+        new_rec_config.append(temp_rec)
+        new_tab_config.append(temp_tab)
+    return render_template('index.html', range_4=range(4), range_10=range(10), config_genetique=new_gen_config, config_recuit=new_rec_config, config_tabou=new_tab_config, gen_val=gen_val, rec_val=rec_val, tab_val=tab_val, recuit_iterations=10, recuit_temperature=100, gen_iterations=10, gen_popsize=100, gen_mutprob=0.1, taboo_iterations=10, taboo_taille=100)
 
 if __name__ == '__main__':
     app.run(debug=True)
