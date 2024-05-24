@@ -67,8 +67,7 @@ def recuit_simule(freq_bigrams, temp_initiale, taux_refroidissement, iterations,
     plt.plot(valeurs, label='Recuit Simulé')
 
     # out in out.png
-    plt.savefig('last_recuit.png')
-    plt.legend()
+    #plt.savefig('last_recuit.png')
 
     return meilleure_config, meilleure_valeur
 

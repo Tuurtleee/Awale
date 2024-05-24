@@ -89,8 +89,8 @@ def algorithme_genetique(freq_bigrams, taille_population, prob_mutation, generat
     plt.title('Évolution de la valeur de la fonction objectif')
 
     # save
-    plt.savefig('last_genetique.png')
-    plt.legend()
+    
+    #plt.savefig('last_genetique.png')
 
     return meilleure_config, meilleure_valeur
 
